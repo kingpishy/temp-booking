@@ -1,9 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Book a Time</title>
+<title>Book a Call — John Belino</title>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -49,7 +50,6 @@
     box-shadow: 0 4px 24px rgba(0,0,0,0.07);
   }
 
-  /* ---- LEFT PANEL ---- */
   .info {
     background: #fafaf8;
     border-right: 1px solid var(--border);
@@ -104,10 +104,7 @@
 
   .meta-list svg { flex-shrink: 0; opacity: 0.7; }
 
-  .divider {
-    height: 1px;
-    background: var(--border);
-  }
+  .divider { height: 1px; background: var(--border); }
 
   .description {
     font-size: 13px;
@@ -115,7 +112,6 @@
     line-height: 1.6;
   }
 
-  /* ---- RIGHT PANEL ---- */
   .booking {
     padding: 2rem 1.75rem;
     display: flex;
@@ -123,11 +119,9 @@
     gap: 1.5rem;
   }
 
-  /* Screens */
   .screen { display: none; }
   .screen.active { display: flex; flex-direction: column; gap: 1.25rem; }
 
-  /* --- Screen: Date picker --- */
   .screen-label {
     font-size: 14px;
     font-weight: 600;
@@ -195,11 +189,7 @@
   .cal-day.today { font-weight: 600; color: var(--accent); }
   .cal-day.selected { background: var(--accent); color: #fff; font-weight: 600; }
 
-  /* --- Screen: Time slots --- */
-  .slots-date {
-    font-size: 13px;
-    color: var(--text-2);
-  }
+  .slots-date { font-size: 13px; color: var(--text-2); }
 
   .slots-grid {
     display: grid;
@@ -222,12 +212,7 @@
   .slot-btn:hover { background: var(--accent-bg); border-color: var(--accent); }
   .slot-btn.selected { background: var(--accent); color: #fff; border-color: var(--accent); }
 
-  /* --- Screen: Form --- */
-  .form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-  }
+  .form-group { display: flex; flex-direction: column; gap: 5px; }
 
   label {
     font-size: 12px;
@@ -265,7 +250,6 @@
     line-height: 1.5;
   }
 
-  /* --- Screen: Confirm --- */
   .confirm-icon {
     width: 52px;
     height: 52px;
@@ -310,8 +294,6 @@
     color: var(--text-2);
   }
 
-  .confirm-row strong { color: var(--text); font-weight: 500; }
-
   .redirect-notice {
     font-size: 12px;
     color: var(--text-3);
@@ -319,12 +301,7 @@
     margin-top: 4px;
   }
 
-  /* --- Buttons --- */
-  .btn-row {
-    display: flex;
-    gap: 8px;
-    margin-top: auto;
-  }
+  .btn-row { display: flex; gap: 8px; margin-top: auto; }
 
   .btn {
     padding: 10px 18px;
@@ -337,11 +314,7 @@
     font-family: var(--font);
   }
 
-  .btn-primary {
-    background: var(--accent);
-    color: #fff;
-    flex: 1;
-  }
+  .btn-primary { background: var(--accent); color: #fff; flex: 1; }
   .btn-primary:hover { background: #1d4ed8; }
   .btn-primary:disabled { background: var(--text-3); cursor: default; }
 
@@ -352,44 +325,13 @@
   }
   .btn-ghost:hover { background: var(--bg); }
 
-  /* ---- REDIRECT CONFIG PANEL ---- */
-  .config-strip {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: #1a1917;
-    color: #e2e0da;
-    font-size: 12px;
-    padding: 10px 20px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-family: var(--font);
-    z-index: 100;
+  .status-msg {
+    font-size: 13px;
+    color: var(--text-2);
+    text-align: center;
+    min-height: 20px;
   }
-  .config-strip label { color: #9e9c97; font-size: 11px; text-transform: none; letter-spacing: 0; font-weight: 400; }
-  .config-strip input {
-    border: 1px solid #444;
-    border-radius: 5px;
-    background: #2a2927;
-    color: #e2e0da;
-    padding: 5px 9px;
-    font-size: 12px;
-    flex: 1;
-    max-width: 360px;
-    outline: none;
-  }
-  .config-strip input:focus { border-color: #666; }
-  .config-strip .badge {
-    background: #2563eb;
-    color: #fff;
-    border-radius: 4px;
-    padding: 2px 7px;
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 0.4px;
-  }
+  .status-msg.error { color: #dc2626; }
 
   @media (max-width: 600px) {
     .shell { grid-template-columns: 1fr; }
@@ -401,18 +343,17 @@
 <body>
 
 <div class="shell">
-  <!-- LEFT: Info panel -->
   <aside class="info">
-    <div class="avatar" id="avatar-initials">YN</div>
+    <div class="avatar">JB</div>
     <div>
-      <div class="organizer-name" id="display-host">Your Name</div>
-      <div class="meeting-title" id="display-title">30-Minute Meeting</div>
+      <div class="organizer-name">John Belino</div>
+      <div class="meeting-title">[Client's Business Name]</div>
     </div>
     <div class="divider"></div>
     <ul class="meta-list">
       <li>
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-        <span id="display-duration">30 minutes</span>
+        <span>30 minutes</span>
       </li>
       <li>
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
@@ -424,10 +365,9 @@
       </li>
     </ul>
     <div class="divider"></div>
-    <p class="description" id="display-desc">Pick a time that works for both of us. You'll receive a calendar invite and a video link immediately after booking.</p>
+    <p class="description">Pick a time that works for both of us. You'll receive a calendar invite and a video link immediately after booking.</p>
   </aside>
 
-  <!-- RIGHT: Booking flow -->
   <main class="booking">
 
     <!-- Screen 1: Date -->
@@ -459,7 +399,7 @@
     <!-- Screen 3: Form -->
     <div class="screen" id="screen-form">
       <div class="screen-label">Your details</div>
-      <div class="booking-summary" id="booking-summary">
+      <div class="booking-summary">
         <svg width="14" height="14" style="flex-shrink:0;margin-top:2px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
         <span id="booking-summary-text"></span>
       </div>
@@ -475,6 +415,7 @@
         <label for="field-notes">Anything you'd like to share? <span style="font-weight:400;color:var(--text-3)">(optional)</span></label>
         <textarea id="field-notes" placeholder="Topics you'd like to cover, questions, context..."></textarea>
       </div>
+      <div class="status-msg" id="form-status"></div>
       <div class="btn-row">
         <button class="btn btn-ghost" onclick="goTo('time')">Back</button>
         <button class="btn btn-primary" id="btn-book" onclick="submitBooking()">Confirm booking</button>
@@ -487,228 +428,190 @@
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
       </div>
       <div class="confirm-title">You're booked!</div>
-      <div class="confirm-body">A calendar invite has been sent to <strong id="confirm-email"></strong>. You'll find the meeting link inside.</div>
+      <div class="confirm-body">Thanks for booking, <strong id="confirm-name"></strong>. John will be in touch shortly with a video link.</div>
       <div class="confirm-detail">
         <div class="confirm-row">
           <svg width="14" height="14" style="flex-shrink:0;margin-top:2px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
           <span id="confirm-slot"></span>
         </div>
         <div class="confirm-row">
-          <svg width="14" height="14" style="flex-shrink:0;margin-top:2px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-          <span id="confirm-name"></span>
+          <svg width="14" height="14" style="flex-shrink:0;margin-top:2px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8l7.89 5.26a2 2 0 0 0 2.22 0L21 8M5 19h14a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2z"/></svg>
+          <span id="confirm-email"></span>
         </div>
       </div>
-      <p class="redirect-notice" id="redirect-notice">Redirecting you in <span id="countdown">5</span>s…</p>
+      <p class="redirect-notice">Taking you to Yame Consulting in <span id="countdown">5</span>s…</p>
     </div>
 
   </main>
 </div>
 
-<!-- Config strip -->
-<div class="config-strip">
-  <span class="badge">SETUP</span>
-  <label>Redirect URL after booking:</label>
-  <input type="url" id="cfg-redirect" placeholder="https://yameconsulting.com/" />
-  <label>Host name:</label>
-  <input type="text" id="cfg-host" placeholder="YAME Consulting" style="max-width:140px" oninput="updateDisplay()" />
-  <label>Title:</label>
-  <input type="text" id="cfg-title" placeholder="Your Meeting with YAME" style="max-width:180px" oninput="updateDisplay()" />
-</div>
-
 <script>
-// ---- STATE ----
-let state = {
-  year: 0, month: 0,
-  selectedDate: null,
-  selectedSlot: null,
-  selectedSlotFull: ''
-};
+var SHEETS_URL = 'https://script.google.com/macros/s/AKfycbxZSyhitUlDWTlKwtdi2N4H4St5HGmi5rbiVxvmNrvKMLBLK3D4CzpcWGHgigDSaebw/exec';
+var REDIRECT_URL = 'https://yameconsulting.com/services/#testimonials';
 
-const today = new Date();
+var state = { year: 0, month: 0, selectedDate: null, selectedSlot: null, selectedSlotFull: '' };
+var today = new Date();
 state.year = today.getFullYear();
 state.month = today.getMonth();
 
-const DAYS = ['Su','Mo','Tu','We','Th','Fr','Sa'];
-const MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+var DAYS = ['Su','Mo','Tu','We','Th','Fr','Sa'];
+var MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 
-// Simulated available slots (weekdays only, excludes already-past times today)
-function getSlots(date) {
-  const allSlots = ['8:00 AM','8:30 AM','9:00 AM','9:30 AM','10:00 AM','10:30 AM','11:00 AM','11:30 AM','1:00 PM','1:30 PM','2:00 PM','2:30 PM','3:00 PM','3:30 PM','4:00 PM','4:30 PM'];
-  // Remove every 3rd slot to simulate bookings
-  return allSlots.filter((_, i) => (i % 3) !== 1);
+function getSlots() {
+  var all = ['8:00 AM','8:30 AM','9:00 AM','9:30 AM','10:00 AM','10:30 AM','11:00 AM','11:30 AM','1:00 PM','1:30 PM','2:00 PM','2:30 PM','3:00 PM','3:30 PM','4:00 PM','4:30 PM'];
+  return all.filter(function(_, i) { return (i % 3) !== 1; });
 }
 
-function isWeekend(y, m, d) {
-  const day = new Date(y, m, d).getDay();
-  return day === 0 || day === 6;
-}
+function isWeekend(y, m, d) { var day = new Date(y, m, d).getDay(); return day === 0 || day === 6; }
+function isPast(y, m, d) { var t = new Date(); t.setHours(0,0,0,0); return new Date(y, m, d) < t; }
 
-function isPast(y, m, d) {
-  const t = new Date(); t.setHours(0,0,0,0);
-  return new Date(y, m, d) < t;
-}
-
-// ---- CALENDAR ----
 function renderCalendar() {
-  const label = document.getElementById('cal-month-label');
-  label.textContent = MONTHS[state.month] + ' ' + state.year;
-
-  const grid = document.getElementById('cal-grid');
+  document.getElementById('cal-month-label').textContent = MONTHS[state.month] + ' ' + state.year;
+  var grid = document.getElementById('cal-grid');
   grid.innerHTML = '';
-
-  DAYS.forEach(d => {
-    const el = document.createElement('div');
+  DAYS.forEach(function(d) {
+    var el = document.createElement('div');
     el.className = 'cal-day-label';
     el.textContent = d;
     grid.appendChild(el);
   });
-
-  const firstDay = new Date(state.year, state.month, 1).getDay();
-  const daysInMonth = new Date(state.year, state.month + 1, 0).getDate();
-
-  for (let i = 0; i < firstDay; i++) {
-    grid.appendChild(document.createElement('div'));
-  }
-
-  for (let d = 1; d <= daysInMonth; d++) {
-    const el = document.createElement('div');
+  var firstDay = new Date(state.year, state.month, 1).getDay();
+  var daysInMonth = new Date(state.year, state.month + 1, 0).getDate();
+  for (var i = 0; i < firstDay; i++) grid.appendChild(document.createElement('div'));
+  for (var d = 1; d <= daysInMonth; d++) {
+    var el = document.createElement('div');
     el.className = 'cal-day';
     el.textContent = d;
-
-    const isToday = (d === today.getDate() && state.month === today.getMonth() && state.year === today.getFullYear());
-    const past = isPast(state.year, state.month, d);
-    const weekend = isWeekend(state.year, state.month, d);
-    const isSel = state.selectedDate &&
-      state.selectedDate.d === d &&
-      state.selectedDate.m === state.month &&
-      state.selectedDate.y === state.year;
-
+    var isToday = (d === today.getDate() && state.month === today.getMonth() && state.year === today.getFullYear());
+    var past = isPast(state.year, state.month, d);
+    var weekend = isWeekend(state.year, state.month, d);
+    var isSel = state.selectedDate && state.selectedDate.d === d && state.selectedDate.m === state.month && state.selectedDate.y === state.year;
     if (past || weekend) { el.classList.add('disabled'); }
     else if (isSel) { el.classList.add('selected'); }
     else if (isToday) { el.classList.add('today'); }
-
     if (!past && !weekend) {
-      el.onclick = () => selectDate(state.year, state.month, d);
+      (function(dy) { el.onclick = function() { selectDate(state.year, state.month, dy); }; })(d);
     }
-
     grid.appendChild(el);
   }
 }
 
 function selectDate(y, m, d) {
-  state.selectedDate = { y, m, d };
+  state.selectedDate = { y: y, m: m, d: d };
   state.selectedSlot = null;
   renderCalendar();
-  renderSlots(y, m, d);
+  renderSlots();
   goTo('time');
 }
 
-// ---- SLOTS ----
-function renderSlots(y, m, d) {
-  const date = new Date(y, m, d);
-  const label = date.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
-  document.getElementById('slots-date-label').textContent = label;
-
-  const grid = document.getElementById('slots-grid');
+function renderSlots() {
+  var date = new Date(state.selectedDate.y, state.selectedDate.m, state.selectedDate.d);
+  document.getElementById('slots-date-label').textContent = date.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+  var grid = document.getElementById('slots-grid');
   grid.innerHTML = '';
-
-  getSlots(date).forEach(slot => {
-    const btn = document.createElement('button');
+  getSlots().forEach(function(slot) {
+    var btn = document.createElement('button');
     btn.className = 'slot-btn';
     btn.textContent = slot;
     if (state.selectedSlot === slot) btn.classList.add('selected');
-    btn.onclick = () => selectSlot(slot, btn);
+    btn.onclick = function() { selectSlot(slot, btn); };
     grid.appendChild(btn);
   });
-
   document.getElementById('btn-time-next').disabled = !state.selectedSlot;
 }
 
 function selectSlot(slot, btn) {
   state.selectedSlot = slot;
-  document.querySelectorAll('.slot-btn').forEach(b => b.classList.remove('selected'));
+  document.querySelectorAll('.slot-btn').forEach(function(b) { b.classList.remove('selected'); });
   btn.classList.add('selected');
   document.getElementById('btn-time-next').disabled = false;
-
-  const { y, m, d } = state.selectedDate;
-  const date = new Date(y, m, d);
-  const dateStr = date.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
-  state.selectedSlotFull = `${dateStr} at ${slot}`;
+  var date = new Date(state.selectedDate.y, state.selectedDate.m, state.selectedDate.d);
+  var dateStr = date.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+  state.selectedSlotFull = dateStr + ' at ' + slot;
 }
 
-// ---- NAV ----
 function goTo(screen) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.screen').forEach(function(s) { s.classList.remove('active'); });
   document.getElementById('screen-' + screen).classList.add('active');
-
   if (screen === 'form') {
-    const dur = document.getElementById('cfg-title')?.value || '30-Minute Meeting';
-    document.getElementById('booking-summary-text').textContent = state.selectedSlotFull + ' · ' + (document.getElementById('display-duration').textContent);
+    document.getElementById('booking-summary-text').textContent = state.selectedSlotFull + ' · 30 minutes';
   }
 }
 
-// ---- SUBMIT ----
 function submitBooking() {
-  const name = document.getElementById('field-name').value.trim();
-  const email = document.getElementById('field-email').value.trim();
+  var name = document.getElementById('field-name').value.trim();
+  var email = document.getElementById('field-email').value.trim();
+  var notes = document.getElementById('field-notes').value.trim();
+  var status = document.getElementById('form-status');
+  var btn = document.getElementById('btn-book');
+
   if (!name || !email) {
-    alert('Please fill in your name and email.');
+    status.textContent = 'Please fill in your name and email.';
+    status.className = 'status-msg error';
     return;
   }
 
-  document.getElementById('confirm-email').textContent = email;
-  document.getElementById('confirm-slot').textContent = state.selectedSlotFull;
-  document.getElementById('confirm-name').textContent = name;
+  btn.disabled = true;
+  btn.textContent = 'Saving…';
+  status.textContent = '';
+  status.className = 'status-msg';
 
-  goTo('confirm');
-  startRedirect();
+  var date = new Date(state.selectedDate.y, state.selectedDate.m, state.selectedDate.d);
+  var dateStr = date.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+
+  var payload = {
+    name: name,
+    email: email,
+    date: dateStr,
+    time: state.selectedSlot,
+    notes: notes
+  };
+
+  fetch(SHEETS_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(payload)
+  })
+  .then(function() {
+    document.getElementById('confirm-name').textContent = name;
+    document.getElementById('confirm-slot').textContent = state.selectedSlotFull;
+    document.getElementById('confirm-email').textContent = email;
+    goTo('confirm');
+    startRedirect();
+  })
+  .catch(function() {
+    btn.disabled = false;
+    btn.textContent = 'Confirm booking';
+    status.textContent = 'Something went wrong — please try again.';
+    status.className = 'status-msg error';
+  });
 }
 
-// ---- REDIRECT ----
 function startRedirect() {
-  const url = document.getElementById('cfg-redirect').value.trim();
-  const notice = document.getElementById('redirect-notice');
-  const countEl = document.getElementById('countdown');
-
-  if (!url) {
-    notice.textContent = 'Set a redirect URL in the setup bar below to send bookers to your site.';
-    return;
-  }
-
-  let count = 5;
-  const timer = setInterval(() => {
+  var count = 5;
+  var countEl = document.getElementById('countdown');
+  var timer = setInterval(function() {
     count--;
     countEl.textContent = count;
     if (count <= 0) {
       clearInterval(timer);
-      window.location.href = url;
+      window.location.href = REDIRECT_URL;
     }
   }, 1000);
 }
 
-// ---- DISPLAY UPDATE ----
-function updateDisplay() {
-  const host = document.getElementById('cfg-host').value || 'Your Name';
-  const title = document.getElementById('cfg-title').value || '30-Minute Meeting';
-  document.getElementById('display-host').textContent = host;
-  document.getElementById('display-title').textContent = title;
-  const initials = host.split(' ').map(w => w[0]).join('').toUpperCase().slice(0,2);
-  document.getElementById('avatar-initials').textContent = initials || 'YN';
-}
-
-// ---- MONTH NAV ----
-document.getElementById('prev-month').onclick = () => {
+document.getElementById('prev-month').onclick = function() {
   state.month--;
   if (state.month < 0) { state.month = 11; state.year--; }
   renderCalendar();
 };
-document.getElementById('next-month').onclick = () => {
+document.getElementById('next-month').onclick = function() {
   state.month++;
   if (state.month > 11) { state.month = 0; state.year++; }
   renderCalendar();
 };
 
-// ---- INIT ----
 renderCalendar();
 </script>
 </body>
