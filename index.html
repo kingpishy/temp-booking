@@ -365,7 +365,7 @@
       </li>
     </ul>
     <div class="divider"></div>
-    <p class="description">Pick a time that works for both of us. You'll receive a calendar invite and a video link immediately after booking.</p>
+    <p class="description">Pick a time that works for both of us. You'll receive a calendar invite and a meeting link immediately after booking.</p>
   </aside>
 
   <main class="booking">
@@ -428,7 +428,7 @@
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
       </div>
       <div class="confirm-title">You're booked!</div>
-      <div class="confirm-body">Thanks for booking, <strong id="confirm-name"></strong>. John will be in touch shortly with a video link.</div>
+      <div class="confirm-body">Thanks for booking, <strong id="confirm-name"></strong>. John will be in touch shortly with a meeting link.</div>
       <div class="confirm-detail">
         <div class="confirm-row">
           <svg width="14" height="14" style="flex-shrink:0;margin-top:2px" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
@@ -543,6 +543,7 @@ function submitBooking() {
   var email = document.getElementById('field-email').value.trim();
   var notes = document.getElementById('field-notes').value.trim();
   var status = document.getElementById('form-status');
+  var timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
   var btn = document.getElementById('btn-book');
 
   if (!name || !email) {
@@ -564,7 +565,8 @@ function submitBooking() {
     email: email,
     date: dateStr,
     time: state.selectedSlot,
-    notes: notes
+    notes: notes,
+    timezone:  timezone
   };
 
   fetch(SHEETS_URL, {
