@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -446,7 +445,7 @@
 </div>
 
 <script>
-var SHEETS_URL = 'https://script.google.com/macros/s/AKfycbxZSyhitUlDWTlKwtdi2N4H4St5HGmi5rbiVxvmNrvKMLBLK3D4CzpcWGHgigDSaebw/exec';
+var SHEETS_URL = 'https://script.google.com/macros/s/AKfycbzljOp-Q78iGzpD3pcgCn_OfS0lp6Ixe_OMg64m-7dYEsPDaGVZOCEaouH7oKMQbuc5/exec';
 var REDIRECT_URL = 'https://yameconsulting.com/services/#testimonials';
 
 var state = { year: 0, month: 0, selectedDate: null, selectedSlot: null, selectedSlotFull: '' };
@@ -457,14 +456,24 @@ state.month = today.getMonth();
 var DAYS = ['Su','Mo','Tu','We','Th','Fr','Sa'];
 var MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 
+// Timezone mapping dictionary
+const usZoneMap = {
+  "America/New_York": "Eastern Time",
+  "America/Chicago": "Central Time",
+  "America/Denver": "Mountain Time",
+  "America/Los_Angeles": "Pacific Time",
+  "America/Anchorage": "Alaska Time",
+  "Pacific/Honolulu": "Hawaii Time"
+};
+
 function getDetectedTimezone() {
-  return Intl.DateTimeFormat().resolvedOptions().timeZone || 'Unknown';
+  const ianaZone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  return usZoneMap[ianaZone] || ianaZone;
 }
 
 function updateTimezoneLabel() {
-document.getElementById('timezone-label').textContent = 'Current Timezone: ' + getDetectedTimezone();
+  document.getElementById('timezone-label').textContent = 'Current Timezone: ' + getDetectedTimezone();
 }
-
 
 function getSlots() {
   var all = ['8:00 AM','8:30 AM','9:00 AM','9:30 AM','10:00 AM','10:30 AM','11:00 AM','11:30 AM','1:00 PM','1:30 PM','2:00 PM','2:30 PM','3:00 PM','3:30 PM','4:00 PM','4:30 PM'];
@@ -552,7 +561,7 @@ function submitBooking() {
   var email = document.getElementById('field-email').value.trim();
   var notes = document.getElementById('field-notes').value.trim();
   var status = document.getElementById('form-status');
-  var timezone = getDetectedTimezone()
+  var timezone = getDetectedTimezone();
   var btn = document.getElementById('btn-book');
 
   if (!name || !email) {
@@ -575,7 +584,7 @@ function submitBooking() {
     date: dateStr,
     time: state.selectedSlot,
     notes: notes,
-    timezone:  timezone
+    timezone: timezone
   };
 
   fetch(SHEETS_URL, {
@@ -622,6 +631,7 @@ document.getElementById('next-month').onclick = function() {
   if (state.month > 11) { state.month = 0; state.year++; }
   renderCalendar();
 };
+
 updateTimezoneLabel();
 renderCalendar();
 </script>
