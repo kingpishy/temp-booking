@@ -361,7 +361,7 @@
       </li>
       <li>
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
-        <span>Your local time zone</span>
+        <span id="timezone-label">Current Timezone: </span>
       </li>
     </ul>
     <div class="divider"></div>
@@ -457,6 +457,15 @@ state.month = today.getMonth();
 var DAYS = ['Su','Mo','Tu','We','Th','Fr','Sa'];
 var MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
 
+function getDetectedTimezone() {
+  return Intl.DateTimeFormat().resolvedOptions().timeZone || 'Unknown';
+}
+
+function updateTimezoneLabel() {
+document.getElementById('timezone-label').textContent = 'Current Timezone: ' + getDetectedTimezone();
+}
+
+
 function getSlots() {
   var all = ['8:00 AM','8:30 AM','9:00 AM','9:30 AM','10:00 AM','10:30 AM','11:00 AM','11:30 AM','1:00 PM','1:30 PM','2:00 PM','2:30 PM','3:00 PM','3:30 PM','4:00 PM','4:30 PM'];
   return all.filter(function(_, i) { return (i % 3) !== 1; });
@@ -543,7 +552,7 @@ function submitBooking() {
   var email = document.getElementById('field-email').value.trim();
   var notes = document.getElementById('field-notes').value.trim();
   var status = document.getElementById('form-status');
-  var timezone = Intl.DateTimeFormat().resolvedOptions().timeZone
+  var timezone = getDetectedTimezone()
   var btn = document.getElementById('btn-book');
 
   if (!name || !email) {
@@ -613,7 +622,7 @@ document.getElementById('next-month').onclick = function() {
   if (state.month > 11) { state.month = 0; state.year++; }
   renderCalendar();
 };
-
+updateTimezoneLabel();
 renderCalendar();
 </script>
 </body>
