@@ -587,6 +587,9 @@ function submitBooking() {
     timezone: timezone
   };
 
+  // Debugging: log the payload to console
+  console.log('Sending payload:', payload);
+
   fetch(SHEETS_URL, {
     method: 'POST',
     mode: 'no-cors',
